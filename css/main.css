@@ -739,6 +739,7 @@ h3.title.active {
 
     .sub_visual > .sub_titles_wrap {
         /* display: none; */
+        overflow: hidden;
     }
 
     .sub_visual h3 {

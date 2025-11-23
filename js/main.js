@@ -251,11 +251,11 @@
                 effect: "fade",
                 speed: 600,
                 loop: false,
-                allowTouchMove: true,
+                allowTouchMove: false,
                 mousewheel: false,
                 resistanceRatio: 0,
                 autoplay: { delay: 2000, disableOnInteraction: false, pauseOnMouseEnter: false },
-                touchReleaseOnEdges: true,
+                touchReleaseOnEdges: false,
                 observeParents: true,
                 observer: true,
                 on: {

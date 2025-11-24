@@ -79,7 +79,7 @@
                 passiveListeners: true,
                 mousewheel: false,
                 resistanceRatio: 0,
-                autoplay: { delay: 2000, disableOnInteraction: false, pauseOnMouseEnter: false },
+                autoplay: { delay: 1500, disableOnInteraction: false, pauseOnMouseEnter: false },
                 touchReleaseOnEdges: true,
                 observeParents: true,
                 observer: true,

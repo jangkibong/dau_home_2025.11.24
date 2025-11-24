@@ -5,190 +5,11 @@
 
     ScrollTrigger.config({ autoRefreshEvents: "visibilitychange,DOMContentLoaded,load" });
 
-    // =========================================================
-    // Lenis 부드러운 스크롤 초기화 + GSAP 동기화
-    // =========================================================
-    // if (typeof Lenis !== "undefined") {
-    //     const lenis = new Lenis({
-    //         duration: 0.8, // 0.8~1.4 권장
-    //         smoothWheel: true,
-    //         smoothTouch: false,
-    //         syncTouch: true, // 터치 입력도 Lenis로 제어
-    //         touchMultiplier: 1, // 터치 스크롤 속도 (1보다 작으면 느려짐, 크면 빨라짐)
-    //         wheelMultiplier: 1, // 마우스 휠 스크롤 속도 (1보다 작으면 느려짐, 크면 빨라짐)
-    //         easing: (t) => 1 - Math.pow(1 - t, 3),
-    //     });
-
-    //     lenis.on("scroll", () => {
-    //         ScrollTrigger.update();
-    //     });
-
-    //     function raf(time) {
-    //         lenis.raf(time);
-    //         requestAnimationFrame(raf);
-    //     }
-    //     requestAnimationFrame(raf);
-    // }
-
-    // =========================================================
-    // header .menu > ul 내부 스무스 스크롤 (Lenis 대신 독립 구현)
-    // - Lenis가 페이지 스크롤을 제어하더라도 메뉴 내부 스크롤은 부드럽게 동작하도록 함
-    // - passive:false 옵션으로 wheel/touch를 가로채어 자체 타깃(scrollTop)을 애니메이션함
-    // =========================================================
-    // (function initHeaderMenuSmoothing() {
-    //     const menuList = document.querySelector("header .menu > ul");
-    //     if (!menuList) return;
-
-    //     const ease = 1; // 작을수록 더 느리게 따라감
-    //     let target = menuList.scrollTop;
-    //     let current = target;
-    //     let rafId = null;
-    //     let isActive = false;
-
-    //     function clamp(v, a, b) {
-    //         return Math.max(a, Math.min(b, v));
-    //     }
-
-    //     function startLoop() {
-    //         if (rafId) return;
-    //         rafId = requestAnimationFrame(loop);
-    //     }
-
-    //     function stopLoop() {
-    //         if (!rafId) return;
-    //         cancelAnimationFrame(rafId);
-    //         rafId = null;
-    //     }
-
-    //     function loop() {
-    //         current += (target - current) * ease;
-    //         if (Math.abs(target - current) < 0.5) {
-    //             current = target;
-    //         }
-    //         menuList.scrollTop = Math.round(current);
-    //         if (current !== target) {
-    //             rafId = requestAnimationFrame(loop);
-    //         } else {
-    //             rafId = null;
-    //         }
-    //     }
-
-    //     // 휠 이벤트 처리: 기본 스크롤 차단 후 target 업데이트
-    //     function onWheel(e) {
-    //         // 마우스 휠/터치패드 이벤트에서 수직 이동이 없으면 무시
-    //         if (Math.abs(e.deltaY) < 0.5) return;
-    //         e.preventDefault();
-    //         const max = menuList.scrollHeight - menuList.clientHeight;
-    //         target = clamp(target + e.deltaY, 0, Math.max(0, max));
-    //         startLoop();
-    //         isActive = true;
-    //         // 자동 정지(비활성) 타이머
-    //         clearTimeout(onWheel._timer);
-    //         onWheel._timer = setTimeout(() => {
-    //             isActive = false;
-    //         }, 300);
-    //     }
-
-    //     // 터치 지원 (간단한 터치 드래그)
-    //     let touchStartY = 0;
-    //     let touchStartTarget = 0;
-    //     function onTouchStart(e) {
-    //         if (!e.touches || !e.touches.length) return;
-    //         touchStartY = e.touches[0].clientY;
-    //         touchStartTarget = target;
-    //         // 터치 시 애니메이션 루프 유지
-    //         startLoop();
-    //     }
-    //     function onTouchMove(e) {
-    //         if (!e.touches || !e.touches.length) return;
-    //         e.preventDefault();
-    //         const dy = touchStartY - e.touches[0].clientY;
-    //         const max = menuList.scrollHeight - menuList.clientHeight;
-    //         target = clamp(touchStartTarget + dy, 0, Math.max(0, max));
-    //         startLoop(); // 터치 이동 중 루프 활성화
-    //     }
-    //     function onTouchEnd() {
-    //         // 터치 종료 후 자연스레 루프가 멈춤
-    //     }
-
-    //     // 키보드/홈앤엔드 등도 native하게 동작하게 허용: 키 이벤트를 가로채지 않음
-
-    //     // 이벤트 바인딩
-    //     menuList.addEventListener("wheel", onWheel, { passive: false, capture: true });
-    //     menuList.addEventListener("touchstart", onTouchStart, { passive: false, capture: true });
-    //     menuList.addEventListener("touchmove", onTouchMove, { passive: false, capture: true });
-    //     menuList.addEventListener("touchend", onTouchEnd, { passive: true, capture: true });
-
-    //     // 외부에서 제어할 수 있도록 전역 노출(디버그용)
-    //     win.__menuSmooth = {
-    //         start() {
-    //             startLoop();
-    //         },
-    //         stop() {
-    //             stopLoop();
-    //         },
-    //         isActive() {
-    //             return isActive;
-    //         },
-    //     };
-    // })();
-
-    // =========================================================
-    // 1) 인트로 - gsap
-    // =========================================================
-    // const ani1 = gsap.timeline();
-
-    // // ani1.from("#intro .main_title", { y: "110%" });
-
-    // ani1.to("#intro .visual_img_box video", {
-    //     keyframes: [
-    //         { duration: 1 },
-    //         { y: 0, duration: 1 },
-    //         { y: "-100%", duration: 3 },
-    //     ],
-    // }).to(
-    //     "#intro .main_title",
-    //     {
-    //         keyframes: [
-    //             { y: "25%", duration: 1 },
-    //             { y: "0", duration: 1.5 },
-    //             { duration: 2 },
-    //         ],
-    //     },
-    //     0
-    // );
-
-    // ScrollTrigger.create({
-    //     animation: ani1,
-    //     trigger: "#intro",
-    //     start: "top top",
-    //     end: "+=1600",
-    //     scrub: true,
-    //     pin: true,
-    //     anticipatePin: 1,
-    //     markers: false,
-    // });
-
     /* =========================================================
-     * Sub Visual (오토플레이: #overview pin 최초 고정 후에는 항상 autoplay)
+     * Sub Visual: 페이지 로드 즉시 Swiper autoplay 
      * =======================================================*/
-    const ani2 = gsap.timeline();
-    const $overview = $("#overview");
     let subVisualSwiper = null;
-    let subVisualHasStartedAutoplay = false;
-    // ScrollTrigger: pin이 최초 고정되면 autoplay 시작, 이후에는 종료하지 않음
-    ScrollTrigger.create({
-        animation: ani2,
-        trigger: "#overview",
-        start: "top bottom-=300",
-        end: "+=0",
-        scrub: true,
-        pin: false,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        autoplay: true,
-    });
-    // Helpers - swiper 및 인디케이터 셋팅 (구조 단순화)
+    // Helpers - swiper 및 인디케이터 셋팅
     function upgradeToSwiperDOM($container) {
         if ($container.children(".swiper-wrapper").length) {
             return $container.find(".swiper-slide").toArray();
@@ -238,7 +59,7 @@
         $(".sub_visual").each(function () {
             const $host = $(this);
             const $container = $host.find(".sub_visual_content");
-            const $titlesWrap = $host.find(".sub_titles_wrap");
+            const $titlesWrap = $host.find(".sub_titles_wrap"); // (미사용: 구조 유지)
             if (!$container.length) return;
             const slideEls = upgradeToSwiperDOM($container);
             const $indicators = $host.find(".sub_tilte_wrap");
@@ -251,11 +72,15 @@
                 effect: "fade",
                 speed: 600,
                 loop: false,
+                // 터치 스크롤 방해 제거: 수동 슬라이드 스와이프 비활성화
                 allowTouchMove: false,
+                // 기본 터치 preventDefault 비활성화하여 상위 문서 스크롤 통과
+                touchStartPreventDefault: false,
+                passiveListeners: true,
                 mousewheel: false,
                 resistanceRatio: 0,
                 autoplay: { delay: 2000, disableOnInteraction: false, pauseOnMouseEnter: false },
-                touchReleaseOnEdges: false,
+                touchReleaseOnEdges: true,
                 observeParents: true,
                 observer: true,
                 on: {
@@ -435,7 +260,7 @@
                 mousewheel: false, // 섹션에서 수동으로 wheel 제어할 거라면 false 유지
                 observer: true,
                 observeParents: true,
-                touchAngle: 45,
+                touchAngle: 10,
                 preventInteractionOnTransition: true,
                 a11y: { enabled: true },
 
@@ -451,9 +276,8 @@
                     // 접근성 라벨
                     renderBullet: function (index, className) {
                         const n = index + 1;
-                        return `<span class="${className}" role="tab" aria-label="${n}번 슬라이드" aria-controls="project-slide-${n}" tabindex="${
-                            index === initial ? 0 : -1
-                        }"></span>`;
+                        return `<span class="${className}" role="tab" aria-label="${n}번 슬라이드" aria-controls="project-slide-${n}" tabindex="${index === initial ? 0 : -1
+                            }"></span>`;
                     },
                 },
                 autoplay: shouldAutoplay()

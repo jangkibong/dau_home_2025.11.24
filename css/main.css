@@ -196,7 +196,8 @@ body {
 .section_header .title {
     font-size: 5.09em;
     position: relative;
-    top: 0.25em;
+    bottom: 0;
+    margin-bottom: 1.26em;
 }
 
 .section .sub_title {
@@ -437,7 +438,7 @@ h3.title.active {
 
 .swiper_wrap .swiper_item_header .title {
     position: absolute;
-    bottom: -0.51em;
+    bottom: 0;
     font-size: 5.1em;
 }
 
@@ -818,14 +819,14 @@ h3.title.active {
         max-height: unset;
     }
     .swiper_wrap .swiper_item_header {
-        margin-bottom: 0;
+        margin-bottom: 0.8em;
     }
     .swiper_wrap .swiper_item_header .title {
         position: relative;
         font-size: clamp(20px, 4rem, 40px);
         line-height: 1;
         bottom: auto;
-        top: 9px;
+        /* top: 9px; */
         text-align: left;
     }
     .swiper_wrap .swiper_image_wrap {
@@ -903,6 +904,7 @@ h3.title.active {
     .section_header .title {
         font-size: 4rem;
         top: 1.5rem;
+        margin-bottom: 0.8em;
     }
     #tec.section {
         height: auto !important;
